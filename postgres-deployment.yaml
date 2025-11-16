@@ -18,14 +18,14 @@ spec:
         - name: postgres
           image: postgres:15
           ports:
-            - containerPort: 5432
+            - containerPort: 5433
           env:
             - name: POSTGRES_DB
-              value: testdb
+              value: billingdb
             - name: POSTGRES_USER
-              value: testuser
+              value: billing_user
             - name: POSTGRES_PASSWORD
-              value: testpass
+              value: psw123456
           volumeMounts:
             - name: postgres-storage
               mountPath: /var/lib/postgresql/data
