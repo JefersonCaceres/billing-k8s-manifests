@@ -1,22 +1,39 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-deployment
+  name: billing-backend
   labels:
-    app: backend-service
+    app: billing-backend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: backend-service
+      app: billing-backend
   template:
     metadata:
       labels:
-        app: backend-service
+        app: billing-backend
     spec:
       containers:
-        - name: backend-container
-          image: backend-service:1.0.0
+        - name: billing-backend
+          image: billing-backend:latest
           imagePullPolicy: Never
           ports:
             - containerPort: 8080
+          env:
+            # POSTGRES
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:postgresql://postgres-service:5433/billingdb"
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "billing_user"
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: "psw123456"
+
+            # ORACLE
+            - name: ORACLE_DATASOURCE_URL
+              value: "jdbc:oracle:thin:@oracle-service:1521/XEPDB1"
+            - name: ORACLE_DATASOURCE_USERNAME
+              value: "billing"
+            - name: ORACLE_DATASOURCE_PASSWORD
+              value: "pws654321"
+
