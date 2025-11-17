@@ -15,17 +15,18 @@ spec:
         app: oracle
     spec:
       containers:
-        - name: oracle
+        - name: oracle-container
           image: gvenzl/oracle-xe:21-slim
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 1521
           env:
-            - name: ORACLE_PASSWORD
-              value: testpass
-            - name: APP_USER
-              value: testuser
+            - name: ORACLE_PASSWORD      
+              value: pws654321
+            - name: APP_USER               
+              value: billing
             - name: APP_USER_PASSWORD
-              value: testpass
+              value: pws654321
           volumeMounts:
             - name: oracle-storage
               mountPath: /opt/oracle/oradata
