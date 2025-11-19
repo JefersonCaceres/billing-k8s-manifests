@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-deployment
+  labels:
+    app: node-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: node-service
+  template:
+    metadata:
+      labels:
+        app: node-service
+    spec:
+      containers:
+        - name: node-container
+          image: billing-node-client:1.0.0 
+          imagePullPolicy: Never 
+          env:
+            - name: JAVA_BACKEND_URL
+              value: "http://billing-backend-service:8080"
+          ports:
+            - containerPort: 3000
