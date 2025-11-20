@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oracle-deployment
+  labels:
+    app: oracle
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: oracle
+  template:
+    metadata:
+      labels:
+        app: oracle
+    spec:
+      containers:
+        - name: oracle-container
+          image: gvenzl/oracle-xe:21-slim
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 1521
+          env:
+            - name: ORACLE_PASSWORD      
+              value: pws654321
+            - name: APP_USER               
+              value: billing
+            - name: APP_USER_PASSWORD
+              value: pws654321
+          volumeMounts:
+            - name: oracle-storage
+              mountPath: /opt/oracle/oradata
+      volumes:
+        - name: oracle-storage
+          persistentVolumeClaim:
+            claimName: oracle-pvc
